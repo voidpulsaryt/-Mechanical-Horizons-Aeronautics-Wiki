@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="The Mechanical Horizons: Aeronautics server, with a player guide to the modpack.">
+<link rel="icon" href="img/guild_seal.png">
+<title>Mechanical Horizons Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: guild-ledger wiki. Fixed sidebar of chapters on the left, one long scrolling page of sections; collapses to a top tab strip on phones.
+   Single dusk-purple look taken from the pack's menu art, used deliberately in both host themes. */
+:root {
+  --night: #17112a;      /* page */
+  --deck: #221a3b;       /* raised surfaces */
+  --deck-2: #2c2249;     /* table stripes, hover */
+  --line: #3d3163;       /* hairlines */
+  --text: #eee7f6;
+  --muted: #b3a6cb;
+  --brass: #f2b53a;      /* the accent: wordmark gold */
+  --brass-deep: #7a4a12; /* gold's drop shadow */
+  --copper: #d9733f;     /* button plates */
+  --rose: #d48ab4;       /* sunset pink, used for story */
+  --ok: #5fd38d;         /* server online */
+  --bad: #ef6b5b;        /* server offline */
+  --display: "Barlow Condensed", "Bahnschrift", "Arial Narrow", sans-serif;
+  --body: "Barlow", "Bahnschrift", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+img { height: auto; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--night); color: var(--text);
+  font: 400 17px/1.6 var(--body);
+  background-image: radial-gradient(ellipse 80% 50% at 70% -10%, #3a2560 0%, transparent 60%);
+  background-attachment: fixed;
+}
+a { color: var(--brass); text-underline-offset: 3px; }
+a:hover { color: #ffd27a; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 3px; }
+
+.shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1240px; margin: 0 auto; gap: 48px; padding-inline: 24px; }
+
+/* sidebar */
+.side { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; height: 100vh; overflow-y: auto; padding-block: 28px; display: flex; flex-direction: column; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
+.brand img { width: 52px; height: 52px; }
+.brand b { font: 800 22px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--brass); text-shadow: 0 2px 0 var(--brass-deep); display: block; }
+.brand span { font: 600 12px/1.4 var(--display); letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+.side nav { display: flex; flex-direction: column; gap: 2px; }
+.side nav p { margin: 14px 0 4px; font: 700 12px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.side nav a { text-decoration: none; color: var(--text); padding: 6px 12px; border-radius: 6px; border-left: 2px solid transparent; font-weight: 500; font-size: 15px; }
+.side nav a:hover { background: var(--deck); color: var(--text); }
+.side nav a[aria-current="true"] { border-left-color: var(--brass); background: var(--deck); color: var(--brass); }
+
+/* main column */
+main { min-width: 0; padding-block: 28px 80px; display: flex; flex-direction: column; gap: 72px; }
+.hero { display: flex; flex-direction: column; gap: 22px; }
+.hero img { width: 100%; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.hero .lede { font-size: 20px; line-height: 1.55; max-width: 62ch; margin: 0; }
+.motto { font: italic 400 18px/1.4 var(--body); color: var(--brass); margin: 0; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 0; }
+.facts div { background: var(--deck); padding: 14px 16px; }
+.facts dt { font: 700 12px/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 6px 0 0; font: 700 26px/1.1 var(--display); color: var(--text); font-variant-numeric: tabular-nums; }
+
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 24px; }
+section > * { margin: 0; }
+h2 { font: 800 clamp(34px, 5vw, 46px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; color: var(--brass); text-shadow: 0 3px 0 var(--brass-deep); text-wrap: balance; display: flex; align-items: center; gap: 18px; }
+h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--line), transparent); }
+h3 { font: 700 24px/1.15 var(--display); text-transform: uppercase; letter-spacing: .03em; color: var(--text); margin-top: 10px; text-wrap: balance; }
+.kicker { font: 700 13px/1 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--rose); }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; }
+kbd, code { font: 500 .86em var(--mono); background: var(--deck-2); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; color: var(--text); }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+th, td { text-align: left; padding: 10px 14px; vertical-align: top; }
+th { font: 700 13px/1.2 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); background: var(--deck); border-bottom: 1px solid var(--line); white-space: nowrap; }
+tbody tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+tbody tr + tr td { border-top: 1px solid rgba(61,49,99,.6); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .guild { display: block; font-size: 13.5px; color: var(--rose); }
+tfoot td { background: var(--deck); font-weight: 600; border-top: 1px solid var(--line); }
+
+/* coin chips */
+.coins { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+.coin { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; white-space: nowrap; }
+.coin::before { content: ""; width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: inset 0 -2px 0 rgba(0,0,0,.3); }
+.c-copper { --c: #c8794a; } .c-iron { --c: #cfd3d8; } .c-gold { --c: #f2c94c; }
+.c-emerald { --c: #3ccf7a; } .c-diamond { --c: #6fe3e8; } .c-netherite { --c: #5b4a5a; }
+
+/* steps */
+.steps { list-style: none; padding: 0; counter-reset: step; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.steps li { counter-increment: step; background: var(--deck); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; max-width: none; display: flex; flex-direction: column; gap: 6px; }
+.steps li::before { content: "Step " counter(step); font: 700 12px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--brass); }
+.steps b { font: 700 20px/1.15 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.steps p { margin: 0; color: var(--muted); font-size: 15.5px; }
+
+/* quotes from the logbook */
+blockquote { margin: 0; padding: 4px 0 4px 18px; border-left: 3px solid var(--rose); font-style: italic; color: #e5d4ea; max-width: 64ch; }
+blockquote cite { display: block; font-style: normal; font-size: 14px; color: var(--muted); margin-top: 6px; }
+
+/* spoilers */
+details { border: 1px solid var(--line); border-radius: 10px; background: var(--deck); }
+summary { cursor: pointer; list-style: none; padding: 14px 18px; display: flex; align-items: center; gap: 12px; font: 700 20px/1.2 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 700 20px/1 var(--mono); color: var(--brass); width: 16px; }
+details[open] summary::before { content: "\2212"; }
+summary small { margin-left: auto; font: 600 12px/1 var(--display); letter-spacing: .18em; color: var(--rose); }
+.log-list { padding: 0 18px 18px; display: flex; flex-direction: column; gap: 18px; }
+.log h4 { margin: 0 0 4px; font: 700 18px/1.2 var(--display); text-transform: uppercase; letter-spacing: .04em; color: var(--brass); }
+.log p { margin: 0 0 8px; color: #e5d4ea; }
+
+/* callouts */
+.note { background: linear-gradient(180deg, #2c2249, #251c40); border: 1px solid var(--line); border-left: 3px solid var(--brass); border-radius: 8px; padding: 14px 18px; max-width: 72ch; }
+.note p { margin: 0; }
+.note p + p { margin-top: 8px; }
+.note.warn { border-left-color: var(--copper); }
+
+/* brass button, like the menu buttons */
+.plate { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.btn { font: 700 18px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: #fff; text-decoration: none; background: linear-gradient(#f69c4a, #c4543a); border: 3px solid #e9b54e; border-radius: 10px; padding: 12px 20px; box-shadow: 0 4px 0 rgba(0,0,0,.35); cursor: pointer; }
+.btn:hover { color: #fff; filter: brightness(1.08); }
+.codebox { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--deck); }
+.codebox code { border: 0; background: none; font-size: 18px; padding: 10px 14px; letter-spacing: .08em; }
+.codebox button { font: 700 14px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; background: var(--deck-2); color: var(--brass); border: 0; border-left: 1px solid var(--line); padding: 13px 14px; cursor: pointer; }
+.codebox button:hover { background: var(--line); }
+.partner img { width: 100%; max-width: 720px; border-radius: 10px; border: 1px solid var(--line); display: block; }
+
+/* live server status */
+.join { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.join .server { max-width: none; border-color: var(--brass); }
+.join-steps { grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 0; }
+.join-steps li { padding: 12px 16px; }
+@media (max-width: 1000px) { .join { grid-template-columns: minmax(0, 1fr); } }
+.side .status-pill { font-size: 14px; }
+@media (max-width: 880px) { .side .status-pill { display: none; } }
+.status-pill { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; text-decoration: none; color: var(--text); background: var(--deck); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px 6px 10px; font: 600 15px/1.2 var(--body); }
+.status-pill:hover { color: var(--text); border-color: var(--brass); }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); flex: none; }
+[data-state="online"] .dot { background: var(--ok); box-shadow: 0 0 0 4px rgba(95,211,141,.18); }
+[data-state="offline"] .dot { background: var(--bad); }
+.server { background: var(--deck); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
+.server-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.server-state { display: flex; align-items: center; gap: 10px; font: 700 22px/1 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+.server-state .dot { width: 12px; height: 12px; }
+[data-state="online"] .server-state { color: var(--ok); }
+[data-state="offline"] .server-state { color: var(--bad); }
+.server-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 0; }
+.server-stats dt { font: 700 12px/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.server-stats dd { margin: 6px 0 0; font: 700 22px/1.15 var(--display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.server-motd { margin: 0; color: var(--muted); font-style: italic; }
+.server-players { display: flex; flex-wrap: wrap; gap: 6px; }
+.server-players span { background: var(--deck-2); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; font-size: 14px; }
+.server-foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.two > div { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.two h3 { margin-top: 0; }
+.two p { margin: 0; }
+
+footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 20px; }
+
+/* phones: sidebar becomes a sticky tab strip */
+@media (max-width: 880px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding-inline: 16px; }
+  .side { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; height: auto; overflow: visible; padding-block: 10px; margin-inline: -16px; padding-inline: 16px; background: rgba(23,17,42,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); gap: 8px; }
+  .brand img { width: 34px; height: 34px; }
+  .brand b { font-size: 18px; }
+  .brand span { display: none; }
+  .side nav { flex-direction: row; overflow-x: auto; gap: 4px; scrollbar-width: none; }
+  .side nav::-webkit-scrollbar { display: none; }
+  .side nav p { display: none; }
+  .side nav a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; border-radius: 4px; padding: 6px 10px; }
+  .side nav a[aria-current="true"] { border-bottom-color: var(--brass); }
+  main { gap: 56px; padding-top: 20px; }
+  html { scroll-padding-top: 110px; }
+  section { scroll-margin-top: 110px; }
+  .hero .lede { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="index.html#top">
+      <img src="img/guild_seal.png" alt="">
+      <div><b>Mechanical Horizons</b><span>Server and wiki</span></div>
+    </a>
+    <a class="status-pill" href="index.html#top" data-status data-state="checking"><span class="dot"></span><span data-status-text>Checking server…</span></a>
+    <nav aria-label="Site sections">
+      <p>Our server</p>
+      <a href="index.html#top">Join the server</a>
+      <a href="index.html#on-the-server">Playing here</a>
+      <a href="index.html#community">Community</a>
+      <a href="index.html#servers">Host your own</a>
+      <p>Guide</p>
+      <a href="#getting-started">Getting started</a>
+      <a href="#chapters">Quest chapters</a>
+      <a href="#airships">Airships</a>
+      <a href="#economy">Coins and shops</a>
+      <a href="#land">Land and claims</a>
+      <a href="#mods">Mod list</a>
+      <a href="#troubleshooting">Troubleshooting</a>
+      <p>Story</p>
+      <a href="story.html#story">The Horizon Logs</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section id="getting-started">
+      <h2>Getting started</h2>
+      <ol class="steps">
+        <li><b>Install</b><p>Install the pack from the CurseForge app. It sets up Minecraft 1.21.1 and NeoForge for you.</p></li>
+        <li><b>Give it memory</b><p>Allocate at least 8 GB of RAM in CurseForge under Settings, Minecraft, Java settings. Less than that and large bases will stutter.</p></li>
+        <li><b>Open the quest book</b><p>Start with the Welcome chapter, <i>The disciplines of the Horizon Guild</i>. It points you at every other chapter.</p></li>
+        <li><b>Turn your first shaft</b><p>Make andesite alloy in the Create chapter. That one item unlocks the first page of the Horizon Logs.</p></li>
+      </ol>
+      <h3>Your first few hours</h3>
+      <ul>
+        <li><b>Create first.</b> Everything early runs on rotation: shafts, cogwheels, andesite casing, crushing wheels. The Create chapter walks you through it.</li>
+        <li><b>Then leave the ground.</b> Once you have a working kinetic setup, the Create Aeronautics chapter shows you how to turn a build into a flying vessel.</li>
+        <li><b>Earn coins early.</b> Coins pay for land claims and protection, so open the Lightman's Currency chapter before you settle down. Claimed land is not protected until you pay for it (see <a href="#land">Land and claims</a>).</li>
+        <li><b>Pick a tech path.</b> Immersive Engineering, Powah, Modern Industrialization, Oritech and AE2 each have their own chapter. You don't need to finish one before starting another.</li>
+      </ul>
+      <div class="note">
+        <p>Shaders are included. Iris is installed with Complementary shaders, which you can turn on from the shader packs menu in Video Settings.</p>
+      </div>
+    </section>
+
+    <section id="chapters">
+      <h2>Quest chapters</h2>
+      <p>Each chapter is one school of the old Horizon Guild. Progress in any of them unlocks pages of the Horizon Logs, the story chapter. The last five are the allied schools: optional, but each adds its own corner of the story.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chapter</th><th class="num">Quests</th><th>What you'll do</th></tr></thead>
+          <tbody>
+            <tr><td>Welcome<span class="guild">The disciplines of the Horizon Guild</span></td><td class="num">12</td><td>The hub. Six core disciplines power the Horizon Engine, and five allied schools sit around them.</td></tr>
+            <tr><td>Horizon Logs<span class="guild">The logbook of Ada Corrin</span></td><td class="num">20</td><td>The story in three acts. Each log unlocks from a milestone in another chapter, plus five optional margin notes from the allied schools.</td></tr>
+            <tr><td>Create &amp; Addons<span class="guild">The Cogwrights</span></td><td class="num">84</td><td>Rotation, belts, funnels and tunnels, crushing, logistics, then the addons: rails, deco, kitchens, cannons and more.</td></tr>
+            <tr><td>Create Aeronautics<span class="guild">The Windwrights</span></td><td class="num">41</td><td>Lift, propellers, levitite, sensors and your first flying ship.</td></tr>
+            <tr><td>Aeroworks<span class="guild">The Helmwrights</span></td><td class="num">12</td><td>Cockpits and bridges: control desks, wheels, yokes, joysticks, throttles and servos.</td></tr>
+            <tr><td>Create Propulsion<span class="guild">The Thrust Guild</span></td><td class="num">18</td><td>Thrusters, ion drives, vectoring engines, wings and fuel.</td></tr>
+            <tr><td>Immersive Engineering<span class="guild">The Foundry</span></td><td class="num">56</td><td>Steel, multiblock machines, wiring and heavy industry.</td></tr>
+            <tr><td>Powah<span class="guild">The Conduit Choir</span></td><td class="num">33</td><td>Energy generation and storage through five tiers, from Hardened to Nitro.</td></tr>
+            <tr><td>Modern Industrialization<span class="guild">The Consortium</span></td><td class="num">95</td><td>Steam age to electric age: hatches, multiblocks, processing lines, up to fusion.</td></tr>
+            <tr><td>Oritech<span class="guild">The Deep Works</span></td><td class="num">112</td><td>Atomic forge, nuclear reactor, particle accelerator, and a singularity at the end.</td></tr>
+            <tr><td>Applied Energistics 2<span class="guild">The Vaultkeepers</span></td><td class="num">79</td><td>Find meteorites, grow certus quartz and build your ME storage network.</td></tr>
+            <tr><td>Lightman's Currency<span class="guild">The Horizon Exchange</span></td><td class="num">33</td><td>Coins, wallets, banking, shops, land claims and war.</td></tr>
+            <tr><td>PneumaticCraft<span class="guild">The Bellows Guild</span></td><td class="num">17</td><td>Compressed iron, air compressors, pressure chambers, circuit boards and drones.</td></tr>
+            <tr><td>Immersive Petroleum<span class="guild">The Wellwrights</span></td><td class="num">16</td><td>Survey, drill and pump oil, then refine it into diesel, kerosene and lubricant.</td></tr>
+            <tr><td>Big Cannons and Aircraft<span class="guild">The Skyguard</span></td><td class="num">23</td><td>Cast and bore cannons, aim them with radar, and fly biplanes, warships and jetpacks.</td></tr>
+            <tr><td>Exploration<span class="guild">The Pouring Yards</span></td><td class="num">19</td><td>Ruins, the Twilight Forest, the Bumblezone and the dungeons of the Aether. Holds the story's epilogue.</td></tr>
+            <tr><td>Farmer's Delight<span class="guild">The Farm Decks</span></td><td class="num">17</td><td>Knives, cooking pots, wild crops, rich soil and feasts for your crew.</td></tr>          </tbody>
+          <tfoot><tr><td>Total</td><td class="num">687</td><td></td></tr></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <section id="airships">
+      <h2>Airships</h2>
+      <p>Create Aeronautics turns anything you build into a physics-simulated vessel. A ship needs four things: a structure, lift, thrust and a way to steer.</p>
+      <blockquote>Anything properly built may leave the ground. Here is how.<cite>The Wind Charter</cite></blockquote>
+      <ol class="steps">
+        <li><b>Build the hull</b><p>Build your ship as normal blocks. Anything you place can fly, so keep it light at first.</p></li>
+        <li><b>Add lift</b><p>Hot air (a burner under an envelope), steam lift, or levitite. Levitite is mixed, poured and heated, and solid levitite floats by itself.</p></li>
+        <li><b>Add thrust</b><p>Propellers to start. Smart propellers steer as they push. Later, Create Propulsion thrusters and ion drives.</p></li>
+        <li><b>Add controls</b><p>A helm or navigator's table to start. Aeroworks adds control desks, yokes, joysticks and throttle levers.</p></li>
+        <li><b>Assemble</b><p>The physics assembler turns the build into a vessel. This is where a structure becomes a ship.</p></li>
+        <li><b>Fly and dock</b><p>Go up slowly. Watch the altimeter. Tie the ship to something solid when you land.</p></li>
+      </ol>
+      <div class="two">
+        <div>
+          <h3>Lift options</h3>
+          <ul>
+            <li><b>Hot air:</b> the oldest way to fly. Cheap, slow and forgiving.</li>
+            <li><b>Steam lift:</b> runs off your boiler setup and is easy to learn on.</li>
+            <li><b>Levitite:</b> the strongest lift. It wants to rise, so plan where it goes before you pour it.</li>
+            <li><b>Sails and wings:</b> catch lift as well as wind on fast ships.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Thrust and fuel</h3>
+          <ul>
+            <li><b>Propellers:</b> run straight off Create rotation.</li>
+            <li><b>Thrusters:</b> burn liquid fuel. Turpentine comes from pine resin.</li>
+            <li><b>Ion thrusters:</b> electric, silent and strong. They run on Powah or other FE power.</li>
+            <li><b>Vectoring thrusters:</b> tilt with a redstone signal so the ship leans into turns.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Instruments worth building</h3>
+      <p>The altimeter and speedometer tell you where you are. The gimbal sensor reads whether you're level. Distance and docking sensors hum louder as you close on another ship, and magnets hold two ships together in a docking line.</p>
+      <div class="note">
+        <p><b>Claim your vessel.</b> Ships are registered to their owner. Scavengers fly too, and an unclaimed ship is fair game.</p>
+      </div>
+      <h3>Other ways to fly</h3>
+      <ul>
+        <li><b>Immersive Aircraft:</b> small ready-made planes for quick trips.</li>
+        <li><b>Create Jetpack:</b> personal flight once you have the air supply.</li>
+        <li><b>Create Big Cannons</b> and <b>Create Radars:</b> arm your ship and track other vessels.</li>
+      </ul>
+    </section>
+
+    <section id="economy">
+      <h2>Coins and shops</h2>
+      <p>The economy runs on Lightman's Currency. Coins are physical items, but you can also keep them in a bank account and pay with a card. Every coin is worth ten of the one below it.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Coin</th><th class="num">Copper value</th><th>Used for</th></tr></thead>
+          <tbody>
+            <tr><td><span class="coin c-copper">Copper</span></td><td class="num">1</td><td>Small change</td></tr>
+            <tr><td><span class="coin c-iron">Iron</span></td><td class="num">10</td><td>Everyday trades, cheap protections</td></tr>
+            <tr><td><span class="coin c-gold">Gold</span></td><td class="num">100</td><td>A good meal and most protection upkeep</td></tr>
+            <tr><td><span class="coin c-emerald">Emerald</span></td><td class="num">1,000</td><td>Bigger purchases</td></tr>
+            <tr><td><span class="coin c-diamond">Diamond</span></td><td class="num">10,000</td><td>One chunk of land</td></tr>
+            <tr><td><span class="coin c-netherite">Netherite</span></td><td class="num">100,000</td><td>Force-loading a chunk for 5 minutes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="two">
+        <div>
+          <h3>Carrying and saving</h3>
+          <ul>
+            <li><b>Coin mint:</b> turns metals into coins.</li>
+            <li><b>Wallets:</b> copper, iron, gold, emerald, diamond and netherite tiers, plus the Star-Bound Purse. Higher tiers hold more coins.</li>
+            <li><b>ATM:</b> deposit, withdraw and exchange coins. Your bank account pays for land and protection automatically.</li>
+            <li><b>Card:</b> pay from your account without carrying coins.</li>
+            <li><b>Money chest:</b> safe storage for physical coins.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Running a shop</h3>
+          <ul>
+            <li><b>Trading core:</b> the base of every shop.</li>
+            <li><b>Vending machines:</b> sell items. The large one holds more stock.</li>
+            <li><b>Network traders</b> and the <b>trading terminal:</b> trade with shops anywhere on the server without travelling.</li>
+            <li><b>Trading house:</b> many trades from a single counter.</li>
+            <li><b>Toll gates</b> and <b>ticket stations:</b> charge for passage on your roads, rails or docks.</li>
+            <li><b>Lightman's Currency Tech:</b> sell fluids and energy as well as items.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="land">
+      <h2>Land and claims</h2>
+      <p>Land is claimed with FTB Chunks and paid for from your Lightman's Currency bank account, or your team's account if you're in an FTB Teams party. Claims are always visible to everyone on the map.</p>
+      <h3>Claiming</h3>
+      <p>Your team's first 20 chunks cost 1 diamond coin each. After that the price rises 5% for every 20 chunks you already own. The price depends on how many chunks you own right now, so unclaiming moves you back down a tier. Unclaiming refunds 80% of the price.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chunks you own</th><th class="num">Price per chunk</th><th>In coins</th></tr></thead>
+          <tbody>
+            <tr><td>0 to 19</td><td class="num">10,000</td><td><span class="coins"><span class="coin c-diamond">1 diamond</span></span></td></tr>
+            <tr><td>20 to 39</td><td class="num">10,500</td><td><span class="coins"><span class="coin c-diamond">1 diamond</span><span class="coin c-gold">5 gold</span></span></td></tr>
+            <tr><td>40 to 59</td><td class="num">11,025</td><td><span class="coins"><span class="coin c-diamond">1 diamond</span><span class="coin c-emerald">1 emerald</span><span class="coin c-iron">2 iron</span><span class="coin c-copper">5 copper</span></span></td></tr>
+            <tr><td>60 to 79</td><td class="num">11,576</td><td><span class="coins"><span class="coin c-diamond">1 diamond</span><span class="coin c-emerald">1 emerald</span><span class="coin c-gold">5 gold</span><span class="coin c-iron">7 iron</span><span class="coin c-copper">6 copper</span></span></td></tr>
+            <tr><td>80 to 99</td><td class="num">12,155</td><td><span class="coins"><span class="coin c-diamond">1 diamond</span><span class="coin c-emerald">2 emerald</span><span class="coin c-gold">1 gold</span><span class="coin c-iron">5 iron</span><span class="coin c-copper">5 copper</span></span></td></tr>
+            <tr><td>100 to 119</td><td class="num">12,762</td><td><span class="coins"><span class="coin c-diamond">1 diamond</span><span class="coin c-emerald">2 emerald</span><span class="coin c-gold">7 gold</span><span class="coin c-iron">6 iron</span><span class="coin c-copper">2 copper</span></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Prices are in copper. If a claim is refused, deposit more coins at an ATM and try again.</p>
+
+      <h3>Protection costs upkeep</h3>
+      <p>A claim on its own doesn't protect anything. Each protection you switch on costs upkeep for every chunk it covers, charged every 5 minutes while at least one player is online anywhere on the server. Set protections from the claims menu. Its key is listed under <b>LC FTB Hook</b> in Controls.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Protection</th><th class="num">Per chunk, every 5 min</th></tr></thead>
+          <tbody>
+            <tr><td>Block editing</td><td class="num"><span class="coin c-gold">1 gold</span></td></tr>
+            <tr><td>Block interaction</td><td class="num"><span class="coin c-gold">1 gold</span></td></tr>
+            <tr><td>Entity interaction</td><td class="num"><span class="coin c-gold">1 gold</span></td></tr>
+            <tr><td>Item frames and armor stands</td><td class="num"><span class="coin c-gold">1 gold</span></td></tr>
+            <tr><td>Mob griefing</td><td class="num"><span class="coin c-iron">8 iron</span></td></tr>
+            <tr><td>Explosions</td><td class="num"><span class="coin c-iron">7 iron</span></td></tr>
+            <tr><td>PvP</td><td class="num"><span class="coin c-iron">5 iron</span></td></tr>
+            <tr><td>Machines acting as players</td><td class="num"><span class="coin c-iron">5 iron</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <p><b>Example:</b> a 3×3 base (9 chunks) with block editing and explosion protection costs 9 × 170 = 1,530 copper every 5 minutes. That's 18,360 copper an hour, a little under 2 diamond coins. Only switch on what you need.</p>
+      </div>
+      <div class="two">
+        <div>
+          <h3>When you can't pay</h3>
+          <p>Protections switch off one at a time until the bill is affordable. The region at the top of your list loses its protections first, and PvP protection is kept the longest. Everything comes back when you top up your account. Changes to protections and regions take effect at the next payment.</p>
+        </div>
+        <div>
+          <h3>Regions</h3>
+          <p>Claimed chunks are grouped into regions, and protections are set per region. Create regions in the claims menu and move chunks between them, so your vault can be locked down while your farm stays cheap.</p>
+        </div>
+      </div>
+      <div class="two">
+        <div>
+          <h3>Force-loading</h3>
+          <p>Keeps a chunk's machines running when nobody is nearby. Switching it on is free, but each force-loaded chunk costs <span class="coin c-netherite">1 netherite</span> every 5 minutes while a member of your team is online. If you can't afford it, it waits in a queue and starts once you can.</p>
+        </div>
+        <div>
+          <h3>Selling land</h3>
+          <p>List claimed chunks with a price per chunk, and anyone allowed to buy can purchase them and become their private owner. Freshly claimed chunks can't be listed straight away. Team leaders can buy private chunks back for the team by paying the owner compensation.</p>
+        </div>
+      </div>
+      <h3>War</h3>
+      <p>Teams with claimed land can declare war on each other from the claims menu. Declaring war costs 2 times the target team's base upkeep, every period, for as long as the war runs. Each war declared against a team also raises that team's own upkeep. If the attacker runs out of money, the war pauses until their account is topped up.</p>
+    </section>
+
+    <section id="mods">
+      <h2>Mod list</h2>
+      <p>The highlights by category. The full list of 387 mods is on the pack's Relations tab on CurseForge.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Category</th><th>Highlights</th></tr></thead>
+          <tbody>
+            <tr><td>Flight</td><td>Create Aeronautics, Aeroworks, Create Propulsion, Immersive Aircraft, Create Big Cannons, Create Radars, Create Jetpack</td></tr>
+            <tr><td>Create and addons</td><td>Create, Crafts &amp; Additions, Enchantment Industry, Steam 'n' Rails, Slice &amp; Dice, Ore Excavation, Create Deco, Create Connected, Design n' Decor, Dreams n' Desires, Ironworks, Escalated, Bells &amp; Whistles, Hypertube, Copycats+, Factory Logistics</td></tr>
+            <tr><td>Tech</td><td>Immersive Engineering, Immersive Petroleum, Modern Industrialization, Oritech, Powah, PneumaticCraft: Repressurized</td></tr>
+            <tr><td>Storage and logistics</td><td>Applied Energistics 2, Create Factory Logistics, Sophisticated Backpacks and Storage, Storage Drawers</td></tr>
+            <tr><td>Economy and claims</td><td>Lightman's Currency, Lightman's Currency Tech, Create Trading Floor, FTB Chunks, FTB Teams</td></tr>
+            <tr><td>Exploration</td><td>Twilight Forest, The Aether, The Bumblezone, YUNG's Better structures, Repurposed Structures, Lootr, Explorer's Compass</td></tr>
+            <tr><td>Quality of life</td><td>FTB Quests, JEI, Jade, Xaero's Minimap and World Map, Farmer's Delight, Artifacts</td></tr>
+            <tr><td>Looks and performance</td><td>Custom FancyMenu title screen, Iris with Complementary shaders, Sodium, Lithium, Entity Culling</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <div class="two">
+        <div>
+          <h3>The game crashes while loading</h3>
+          <p>Open <code>logs/debug.log</code> in the instance folder and search for <code>FATAL</code>. A line like <i>"is not a valid mod file"</i> names the jar that broke loading.</p>
+          <p>A crash blaming <b>FancyToasts</b> with <code>configManager is null</code> almost always means a different mod failed first. Fix that one and FancyToasts loads fine.</p>
+        </div>
+        <div>
+          <h3>Don't add mods for other versions</h3>
+          <p>Every mod must be built for Minecraft 1.21.1 and NeoForge. A jar for another Minecraft version (for example a 26.x build) stops the whole pack from loading. If an update pulls one in, disable it in CurseForge and install the 1.21.1 version.</p>
+        </div>
+        <div>
+          <h3>Stutters and low FPS</h3>
+          <p>Give the pack at least 8 GB of RAM. Turn shaders off if your graphics card struggles. Lower render distance before anything else, since airships and large factories add a lot to each chunk.</p>
+        </div>
+        <div>
+          <h3>My protections turned off</h3>
+          <p>Your account ran short on upkeep. Deposit coins at an ATM and they come back at the next payment. See <a href="#land">Land and claims</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// copy buttons: clipboard when allowed, otherwise select the text so it can be copied by hand
+document.querySelectorAll('button[data-copy]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1800); };
+    var fallback = function () {
+      var el = document.getElementById(btn.dataset.target);
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = 'Press Ctrl+C';
+    };
+    try { navigator.clipboard.writeText(btn.dataset.copy).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+
+// live server status from api.mcsrvstat.us (it caches results for a few minutes).
+// Works wherever the page may fetch other sites; inside the claude.ai viewer the request is blocked
+// and the card falls back to the address and the "Check live status" link.
+var SERVER = '45.59.132.123:10003';
+var statusEls = document.querySelectorAll('[data-status]');
+function setState(state, short, long) {
+  statusEls.forEach(function (el) {
+    el.setAttribute('data-state', state);
+    el.querySelector('[data-status-text]').textContent = el.id === 'server-card' ? long : short;
+  });
+}
+function showServer(d) {
+  var online = !!(d && d.online);
+  var on = online && d.players ? d.players.online : 0, max = online && d.players ? d.players.max : 0;
+  if (online) setState('online', 'Online: ' + on + ' playing', 'Online');
+  else if (d) setState('offline', 'Server offline', 'Offline');
+  else setState('unknown', 'Server status', 'Status unavailable');
+  // the full card only exists on the server page
+  var card = document.getElementById('server-card');
+  if (!card) return;
+  var players = document.getElementById('server-players'), version = document.getElementById('server-version');
+  var motd = document.getElementById('server-motd'), list = document.getElementById('server-list');
+  list.textContent = ''; list.hidden = true; motd.hidden = true;
+  players.textContent = online ? on + ' / ' + max : '–';
+  version.textContent = online && d.version ? d.version : '–';
+  if (online) {
+    var m = d.motd && d.motd.clean ? d.motd.clean.join(' ').trim() : '';
+    if (m) { motd.textContent = m; motd.hidden = false; }
+    var names = d.players && d.players.list ? d.players.list : [];
+    names.slice(0, 40).forEach(function (p) { var s = document.createElement('span'); s.textContent = p.name || p; list.appendChild(s); });
+    list.hidden = names.length === 0;
+  }
+  document.getElementById('server-checked').textContent = d ? 'Checked ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Live status could not be loaded here.';
+}
+function checkServer() {
+  if (!window.fetch) { showServer(null); return; }
+  fetch('https://api.mcsrvstat.us/3/' + SERVER)
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(showServer)
+    .catch(function () { showServer(null); });
+}
+checkServer();
+setInterval(function () { if (document.visibilityState === 'visible') checkServer(); }, 60000);
+
+// highlight the sidebar link for the section in view
+// (links to other pages are left alone; only this page's sections are tracked)
+var links = Array.prototype.slice.call(document.querySelectorAll('.side nav a[href^="#"]'));
+var byId = {};
+links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+var current = null;
+function mark(id) {
+  if (id === current || !byId[id]) return;
+  current = id;
+  links.forEach(function (a) { a.removeAttribute('aria-current'); });
+  byId[id].setAttribute('aria-current', 'true');
+  if (window.matchMedia('(max-width: 880px)').matches) byId[id].scrollIntoView({ block: 'nearest', inline: 'center' });
+}
+if ('IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.id); });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('main > section').forEach(function (s) { io.observe(s); });
+}
+var first = document.querySelector('main > section');
+if (first) mark(first.id);
+</script>
+</body>
+</html>

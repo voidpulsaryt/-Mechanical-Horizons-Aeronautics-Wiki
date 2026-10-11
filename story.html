@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="The Mechanical Horizons: Aeronautics server, with a player guide to the modpack.">
+<link rel="icon" href="img/guild_seal.png">
+<title>The Horizon Logs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: guild-ledger wiki. Fixed sidebar of chapters on the left, one long scrolling page of sections; collapses to a top tab strip on phones.
+   Single dusk-purple look taken from the pack's menu art, used deliberately in both host themes. */
+:root {
+  --night: #17112a;      /* page */
+  --deck: #221a3b;       /* raised surfaces */
+  --deck-2: #2c2249;     /* table stripes, hover */
+  --line: #3d3163;       /* hairlines */
+  --text: #eee7f6;
+  --muted: #b3a6cb;
+  --brass: #f2b53a;      /* the accent: wordmark gold */
+  --brass-deep: #7a4a12; /* gold's drop shadow */
+  --copper: #d9733f;     /* button plates */
+  --rose: #d48ab4;       /* sunset pink, used for story */
+  --ok: #5fd38d;         /* server online */
+  --bad: #ef6b5b;        /* server offline */
+  --display: "Barlow Condensed", "Bahnschrift", "Arial Narrow", sans-serif;
+  --body: "Barlow", "Bahnschrift", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+img { height: auto; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--night); color: var(--text);
+  font: 400 17px/1.6 var(--body);
+  background-image: radial-gradient(ellipse 80% 50% at 70% -10%, #3a2560 0%, transparent 60%);
+  background-attachment: fixed;
+}
+a { color: var(--brass); text-underline-offset: 3px; }
+a:hover { color: #ffd27a; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 3px; }
+
+.shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1240px; margin: 0 auto; gap: 48px; padding-inline: 24px; }
+
+/* sidebar */
+.side { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; height: 100vh; overflow-y: auto; padding-block: 28px; display: flex; flex-direction: column; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
+.brand img { width: 52px; height: 52px; }
+.brand b { font: 800 22px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--brass); text-shadow: 0 2px 0 var(--brass-deep); display: block; }
+.brand span { font: 600 12px/1.4 var(--display); letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+.side nav { display: flex; flex-direction: column; gap: 2px; }
+.side nav p { margin: 14px 0 4px; font: 700 12px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.side nav a { text-decoration: none; color: var(--text); padding: 6px 12px; border-radius: 6px; border-left: 2px solid transparent; font-weight: 500; font-size: 15px; }
+.side nav a:hover { background: var(--deck); color: var(--text); }
+.side nav a[aria-current="true"] { border-left-color: var(--brass); background: var(--deck); color: var(--brass); }
+
+/* main column */
+main { min-width: 0; padding-block: 28px 80px; display: flex; flex-direction: column; gap: 72px; }
+.hero { display: flex; flex-direction: column; gap: 22px; }
+.hero img { width: 100%; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.hero .lede { font-size: 20px; line-height: 1.55; max-width: 62ch; margin: 0; }
+.motto { font: italic 400 18px/1.4 var(--body); color: var(--brass); margin: 0; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 0; }
+.facts div { background: var(--deck); padding: 14px 16px; }
+.facts dt { font: 700 12px/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 6px 0 0; font: 700 26px/1.1 var(--display); color: var(--text); font-variant-numeric: tabular-nums; }
+
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 24px; }
+section > * { margin: 0; }
+h2 { font: 800 clamp(34px, 5vw, 46px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; color: var(--brass); text-shadow: 0 3px 0 var(--brass-deep); text-wrap: balance; display: flex; align-items: center; gap: 18px; }
+h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--line), transparent); }
+h3 { font: 700 24px/1.15 var(--display); text-transform: uppercase; letter-spacing: .03em; color: var(--text); margin-top: 10px; text-wrap: balance; }
+.kicker { font: 700 13px/1 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--rose); }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; }
+kbd, code { font: 500 .86em var(--mono); background: var(--deck-2); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; color: var(--text); }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+th, td { text-align: left; padding: 10px 14px; vertical-align: top; }
+th { font: 700 13px/1.2 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); background: var(--deck); border-bottom: 1px solid var(--line); white-space: nowrap; }
+tbody tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+tbody tr + tr td { border-top: 1px solid rgba(61,49,99,.6); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .guild { display: block; font-size: 13.5px; color: var(--rose); }
+tfoot td { background: var(--deck); font-weight: 600; border-top: 1px solid var(--line); }
+
+/* coin chips */
+.coins { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+.coin { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; white-space: nowrap; }
+.coin::before { content: ""; width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: inset 0 -2px 0 rgba(0,0,0,.3); }
+.c-copper { --c: #c8794a; } .c-iron { --c: #cfd3d8; } .c-gold { --c: #f2c94c; }
+.c-emerald { --c: #3ccf7a; } .c-diamond { --c: #6fe3e8; } .c-netherite { --c: #5b4a5a; }
+
+/* steps */
+.steps { list-style: none; padding: 0; counter-reset: step; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.steps li { counter-increment: step; background: var(--deck); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; max-width: none; display: flex; flex-direction: column; gap: 6px; }
+.steps li::before { content: "Step " counter(step); font: 700 12px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--brass); }
+.steps b { font: 700 20px/1.15 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.steps p { margin: 0; color: var(--muted); font-size: 15.5px; }
+
+/* quotes from the logbook */
+blockquote { margin: 0; padding: 4px 0 4px 18px; border-left: 3px solid var(--rose); font-style: italic; color: #e5d4ea; max-width: 64ch; }
+blockquote cite { display: block; font-style: normal; font-size: 14px; color: var(--muted); margin-top: 6px; }
+
+/* spoilers */
+details { border: 1px solid var(--line); border-radius: 10px; background: var(--deck); }
+summary { cursor: pointer; list-style: none; padding: 14px 18px; display: flex; align-items: center; gap: 12px; font: 700 20px/1.2 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 700 20px/1 var(--mono); color: var(--brass); width: 16px; }
+details[open] summary::before { content: "\2212"; }
+summary small { margin-left: auto; font: 600 12px/1 var(--display); letter-spacing: .18em; color: var(--rose); }
+.log-list { padding: 0 18px 18px; display: flex; flex-direction: column; gap: 18px; }
+.log h4 { margin: 0 0 4px; font: 700 18px/1.2 var(--display); text-transform: uppercase; letter-spacing: .04em; color: var(--brass); }
+.log p { margin: 0 0 8px; color: #e5d4ea; }
+
+/* callouts */
+.note { background: linear-gradient(180deg, #2c2249, #251c40); border: 1px solid var(--line); border-left: 3px solid var(--brass); border-radius: 8px; padding: 14px 18px; max-width: 72ch; }
+.note p { margin: 0; }
+.note p + p { margin-top: 8px; }
+.note.warn { border-left-color: var(--copper); }
+
+/* brass button, like the menu buttons */
+.plate { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.btn { font: 700 18px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: #fff; text-decoration: none; background: linear-gradient(#f69c4a, #c4543a); border: 3px solid #e9b54e; border-radius: 10px; padding: 12px 20px; box-shadow: 0 4px 0 rgba(0,0,0,.35); cursor: pointer; }
+.btn:hover { color: #fff; filter: brightness(1.08); }
+.codebox { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--deck); }
+.codebox code { border: 0; background: none; font-size: 18px; padding: 10px 14px; letter-spacing: .08em; }
+.codebox button { font: 700 14px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; background: var(--deck-2); color: var(--brass); border: 0; border-left: 1px solid var(--line); padding: 13px 14px; cursor: pointer; }
+.codebox button:hover { background: var(--line); }
+.partner img { width: 100%; max-width: 720px; border-radius: 10px; border: 1px solid var(--line); display: block; }
+
+/* live server status */
+.join { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.join .server { max-width: none; border-color: var(--brass); }
+.join-steps { grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 0; }
+.join-steps li { padding: 12px 16px; }
+@media (max-width: 1000px) { .join { grid-template-columns: minmax(0, 1fr); } }
+.side .status-pill { font-size: 14px; }
+@media (max-width: 880px) { .side .status-pill { display: none; } }
+.status-pill { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; text-decoration: none; color: var(--text); background: var(--deck); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px 6px 10px; font: 600 15px/1.2 var(--body); }
+.status-pill:hover { color: var(--text); border-color: var(--brass); }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); flex: none; }
+[data-state="online"] .dot { background: var(--ok); box-shadow: 0 0 0 4px rgba(95,211,141,.18); }
+[data-state="offline"] .dot { background: var(--bad); }
+.server { background: var(--deck); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
+.server-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.server-state { display: flex; align-items: center; gap: 10px; font: 700 22px/1 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+.server-state .dot { width: 12px; height: 12px; }
+[data-state="online"] .server-state { color: var(--ok); }
+[data-state="offline"] .server-state { color: var(--bad); }
+.server-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 0; }
+.server-stats dt { font: 700 12px/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.server-stats dd { margin: 6px 0 0; font: 700 22px/1.15 var(--display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.server-motd { margin: 0; color: var(--muted); font-style: italic; }
+.server-players { display: flex; flex-wrap: wrap; gap: 6px; }
+.server-players span { background: var(--deck-2); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; font-size: 14px; }
+.server-foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.two > div { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.two h3 { margin-top: 0; }
+.two p { margin: 0; }
+
+footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 20px; }
+
+/* phones: sidebar becomes a sticky tab strip */
+@media (max-width: 880px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding-inline: 16px; }
+  .side { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; height: auto; overflow: visible; padding-block: 10px; margin-inline: -16px; padding-inline: 16px; background: rgba(23,17,42,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); gap: 8px; }
+  .brand img { width: 34px; height: 34px; }
+  .brand b { font-size: 18px; }
+  .brand span { display: none; }
+  .side nav { flex-direction: row; overflow-x: auto; gap: 4px; scrollbar-width: none; }
+  .side nav::-webkit-scrollbar { display: none; }
+  .side nav p { display: none; }
+  .side nav a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; border-radius: 4px; padding: 6px 10px; }
+  .side nav a[aria-current="true"] { border-bottom-color: var(--brass); }
+  main { gap: 56px; padding-top: 20px; }
+  html { scroll-padding-top: 110px; }
+  section { scroll-margin-top: 110px; }
+  .hero .lede { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="index.html#top">
+      <img src="img/guild_seal.png" alt="">
+      <div><b>Mechanical Horizons</b><span>Server and wiki</span></div>
+    </a>
+    <a class="status-pill" href="index.html#top" data-status data-state="checking"><span class="dot"></span><span data-status-text>Checking server…</span></a>
+    <nav aria-label="Site sections">
+      <p>Our server</p>
+      <a href="index.html#top">Join the server</a>
+      <a href="index.html#on-the-server">Playing here</a>
+      <a href="index.html#community">Community</a>
+      <a href="index.html#servers">Host your own</a>
+      <p>Guide</p>
+      <a href="guide.html#getting-started">Getting started</a>
+      <a href="guide.html#chapters">Quest chapters</a>
+      <a href="guide.html#airships">Airships</a>
+      <a href="guide.html#economy">Coins and shops</a>
+      <a href="guide.html#land">Land and claims</a>
+      <a href="guide.html#mods">Mod list</a>
+      <a href="guide.html#troubleshooting">Troubleshooting</a>
+      <p>Story</p>
+      <a href="#story">The Horizon Logs</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section id="story">
+      <h2>The story</h2>
+      <p class="kicker">The Horizon Logs</p>
+      <p>Three hundred years ago, the Horizon Guild raised <b>the Aerie</b>, a city of brass and canvas that sailed above the clouds on a single machine, the Horizon Engine. Then came the night they called <b>the Overclock</b>. For eleven seconds the Aerie climbed faster than anything had ever climbed. Then it fell.</p>
+      <p>You are an apprentice who has found the logbook of <b>Master Wright Ada Corrin</b>, the Aerie's navigator. The world blames greed for the fall. Ada says it wasn't that simple, and she should know: she plotted the course.</p>
+      <blockquote>Learn the old disciplines, apprentice, all of them. Each one you master unlocks another page of this log, and another piece of the truth.<cite>Ada Corrin, The Grounding</cite></blockquote>
+
+      <h3>The schools of the Guild</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>School</th><th>Mod</th><th>Known for</th></tr></thead>
+          <tbody>
+            <tr><td>Cogwrights</td><td>Create</td><td>The first language of machines: rotation</td></tr>
+            <tr><td>Windwrights</td><td>Create Aeronautics</td><td>The Wind Charter and every ship that flew</td></tr>
+            <tr><td>Helmwrights</td><td>Aeroworks</td><td>The bridges and cockpits of every Guild ship</td></tr>
+            <tr><td>Thrust Guild</td><td>Create Propulsion</td><td>Windwrights who chose raw thrust over lift</td></tr>
+            <tr><td>The Foundry</td><td>Immersive Engineering</td><td>Steel, and the oath to build it right</td></tr>
+            <tr><td>Conduit Choir</td><td>Powah</td><td>Listening to the current. Each tier is a voice</td></tr>
+            <tr><td>The Consortium</td><td>Modern Industrialization</td><td>Industry, fuel and the ledger</td></tr>
+            <tr><td>The Deep Works</td><td>Oritech</td><td>Founded by Ori. Motto: contain everything</td></tr>
+            <tr><td>Vaultkeepers</td><td>Applied Energistics 2</td><td>The Aerie's memory. The meteorites are its shards</td></tr>
+            <tr><td>Horizon Exchange</td><td>Lightman's Currency</td><td>Every coin, deed and toll on the Aerie</td></tr>
+            <tr><td>Bellows Guild</td><td>PneumaticCraft</td><td>Every door, lift and mail tube on the Aerie ran on their air</td></tr>
+            <tr><td>Wellwrights</td><td>Immersive Petroleum</td><td>The only school that never moved to the Aerie</td></tr>
+            <tr><td>Skyguard</td><td>Big Cannons, Radars, Immersive Aircraft</td><td>Three hundred years of patrols, and the scavengers that came after</td></tr>
+            <tr><td>Pouring Yards</td><td>The Aether and exploration</td><td>The foundry islands that never came down</td></tr>
+            <tr><td>Farm Decks</td><td>Farmer's Delight</td><td>Fed forty thousand people from one galley</td></tr>          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn"><p><b>Spoilers below.</b> These are the full Horizon Log entries. Each act is hidden until you open it.</p></div>
+
+      <details>
+        <summary>Act I: The Cogwrights and the Windwrights <small>Logs I to IV</small></summary>
+        <div class="log-list">
+          <div class="log"><h4>Log I: First Turn</h4><p>My teacher was Master Tobin Fell of the Cogwrights. On my first day he put a lump of andesite and an iron nugget in my hands and said: everything we build, we build from the humble up. I thought he was being poetic. He was giving me instructions.</p><p>You have made your first alloy. Keep going. The Cogwrights taught the first language of machines, rotation, and everything after this is spoken in it.</p></div>
+          <div class="log"><h4>Log II: Not a Tooth Out of Place</h4><p>Forty thousand precision mechanisms held the Aerie level. When one failed on my shift, the eastern quarter listed three degrees to port for a week, and the Guild never let me forget it.</p><p>Here is what I did not know then: it was not my mechanism. They were failing all over the city, a few every month, for years. The Guild replaced them quietly and blamed the apprentices. Tobin noticed. Tobin always noticed.</p></div>
+          <div class="log"><h4>Log III: The Wind Charter</h4><p>The Wind Charter has one line: Anything properly built may leave the ground. Halvard Rook, the best pilot the Aerie ever had, used to add a second line under his breath: and anything that can leave the ground can go higher.</p><p>He became Guildmaster when I was twenty. Under him the Aerie flew higher every year, and we thought it was ambition. You have built a vessel of your own now. Take it up and feel what it is like. Then remember that every climb has a ceiling.</p></div>
+          <div class="log"><h4>Log IV: Lighter Than Reason</h4><p>Levitite wants to rise the way water wants to fall. The Aerie's foundations were poured from it on the pouring yards, foundry islands that floated beside the city.</p><p>When the yards were retired, nobody could get them back down, so they were left to drift. They are still up there, high above the clouds. Anyone stubborn enough to live on one would have a very good view. Keep that in mind.</p></div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Act II: The Warnings <small>Logs V to VIII</small></summary>
+        <div class="log-list">
+          <div class="log"><h4>Log V: The Foundry Oath</h4><p>Foreman Bram Holt never trusted the Aerie and never set foot on it. A month before the Overclock, the Guildmaster sent him a refit order for the Engine's cage. Bram sent it back unsigned, with one line written across it: this is a death sentence.</p><p>Rook found another foundry. Bram's steel held anyway: most of the survivors walked out of wreckage framed in Foundry girders. Make your steel the way he did.</p></div>
+          <div class="log"><h4>Log VI: The Conduit Choir</h4><p>Cantor Liesl Marr could hear the Engine from anywhere in the city. For eleven years she said it was singing flat. She filed a report every season. Every one reached the Guildmaster's desk, and not one was ever answered.</p><p>I used to think she was exaggerating. Choir people always are. Learn to listen to your machines, apprentice. They will tell you when they are dying, if you let them.</p></div>
+          <div class="log"><h4>Log VII: The Consortium Ledger</h4><p>Director Imra Vess kept the Consortium ledger like scripture. In the Aerie's last years it showed something impossible: more fuel going into the Engine every season, and less power coming out.</p><p>Vess circled the numbers in red and sent them to the Guildmaster. Then she raised her prices. She is the only one who wrote the truth down in plain figures, and the first to profit from keeping it quiet.</p></div>
+          <div class="log"><h4>Log VIII: The Deep Works</h4><p>Ori, who founded the Deep Works, wired an off switch into every machine she ever built, running all the way to the surface. Contain everything, she said, including your own mistakes.</p><p>A week before the Overclock, Warden Kael Brask removed the off switches from the Horizon Engine on the Guildmaster's order, so that nobody could stop what came next halfway through. Build your reactor. Keep your off switch.</p></div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Act III: The Truth <small>Logs IX to XIII and the last page</small></summary>
+        <div class="log-list">
+          <div class="log"><h4>Log IX: Skyfall</h4><p>You have seen the craters. The scholars call them meteorites. They are pieces of the Vault, the Aerie's memory, and its sky stone shell rained across the world when we fell.</p><p>On the last morning, Archivist Senna Quell read the Engine logs the Guildmaster had buried, understood what they meant and sealed copies into every cube in the Vault. Follow the compass. The truth is in the craters.</p></div>
+          <div class="log"><h4>Log X: What the Vault Remembers</h4><p>Wake the Vault and read what Senna saved: eleven years of Engine logs. The core was drifting. The Choir's reports, the Consortium's figures, the Deep Works readings, all of it on the Guildmaster's desk and all of it buried.</p><p>The Engine was dying, apprentice, and had been for eleven years. Rook knew. The Overclock was not greed. It was a desperate man trying to save a city that did not know it was falling.</p></div>
+          <div class="log"><h4>Log XI: The Sky Roads</h4><p>Rook's chart had a line across it in red ink, far above any altitude a ship had reached. The Deep Works believed the Engine's core would steady itself up there. They called it the horizon line.</p><p>Someone had to plot the climb. I was the chief navigator. I ran the numbers four times and they never worked, and I signed the course anyway, because Rook asked me to and I could not think of anything better. This logbook is my confession. Now you know.</p></div>
+          <div class="log"><h4>Log XII: The Overclock</h4><p>The bridge, that night: Rook behind me. Director Vess at the throttles, pushing every one to its stop. Cantor Marr in the doorway, begging him to listen. The Engine singing a note nobody had ever heard.</p><p>For eleven seconds the Aerie climbed. At the eighth, I knew we would never reach the line. At the tenth, I understood that if the core collapsed while it was still bolted to the city, the Aerie would not fall. It would vanish, all of it, into nothing.</p><p>You have built a fusion reactor. You hold the same power we held that night. Use it better.</p></div>
+          <div class="log"><h4>Log XIII: Event Horizon</h4><p>So in the eleventh second, I cut the Engine's heart loose from the city. That is why the Aerie fell instead of disappearing. That is why there were survivors to fall.</p><p>The heart did not fall. Caught in levitite, it went up, toward the old pouring yards, and I went with it, because someone had to keep it balanced: gears to spin it, steel to cage it, crystal to tune it, industry to feed it, the Deep Works to contain it and the Vault to remember its shape. You have made a singularity of your own now. You know what that takes.</p></div>
+          <div class="log"><h4>Beyond the Horizon</h4><p>This page is newer than the others. The ink is still dark.</p><p>If you have learned every discipline of the Guild, you have done what Rook never could: kept them all in balance, at the same time, in the same place.</p><p>I did not make it down, apprentice. I went up. The heart is still beating above the old pouring yards, and I have kept it steady for longer than I like to count. I am tired.</p><p>Build a ship that can climb past the clouds. Follow the light the pilots talk about. Come find me. I left the lamp on.</p><p>Welcome to the Guild, Master Wright.</p></div>
+        </div>
+      </details>
+    </section>
+  </main>
+</div>
+
+<script>
+// copy buttons: clipboard when allowed, otherwise select the text so it can be copied by hand
+document.querySelectorAll('button[data-copy]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1800); };
+    var fallback = function () {
+      var el = document.getElementById(btn.dataset.target);
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = 'Press Ctrl+C';
+    };
+    try { navigator.clipboard.writeText(btn.dataset.copy).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+
+// live server status from api.mcsrvstat.us (it caches results for a few minutes).
+// Works wherever the page may fetch other sites; inside the claude.ai viewer the request is blocked
+// and the card falls back to the address and the "Check live status" link.
+var SERVER = '45.59.132.123:10003';
+var statusEls = document.querySelectorAll('[data-status]');
+function setState(state, short, long) {
+  statusEls.forEach(function (el) {
+    el.setAttribute('data-state', state);
+    el.querySelector('[data-status-text]').textContent = el.id === 'server-card' ? long : short;
+  });
+}
+function showServer(d) {
+  var online = !!(d && d.online);
+  var on = online && d.players ? d.players.online : 0, max = online && d.players ? d.players.max : 0;
+  if (online) setState('online', 'Online: ' + on + ' playing', 'Online');
+  else if (d) setState('offline', 'Server offline', 'Offline');
+  else setState('unknown', 'Server status', 'Status unavailable');
+  // the full card only exists on the server page
+  var card = document.getElementById('server-card');
+  if (!card) return;
+  var players = document.getElementById('server-players'), version = document.getElementById('server-version');
+  var motd = document.getElementById('server-motd'), list = document.getElementById('server-list');
+  list.textContent = ''; list.hidden = true; motd.hidden = true;
+  players.textContent = online ? on + ' / ' + max : '–';
+  version.textContent = online && d.version ? d.version : '–';
+  if (online) {
+    var m = d.motd && d.motd.clean ? d.motd.clean.join(' ').trim() : '';
+    if (m) { motd.textContent = m; motd.hidden = false; }
+    var names = d.players && d.players.list ? d.players.list : [];
+    names.slice(0, 40).forEach(function (p) { var s = document.createElement('span'); s.textContent = p.name || p; list.appendChild(s); });
+    list.hidden = names.length === 0;
+  }
+  document.getElementById('server-checked').textContent = d ? 'Checked ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Live status could not be loaded here.';
+}
+function checkServer() {
+  if (!window.fetch) { showServer(null); return; }
+  fetch('https://api.mcsrvstat.us/3/' + SERVER)
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(showServer)
+    .catch(function () { showServer(null); });
+}
+checkServer();
+setInterval(function () { if (document.visibilityState === 'visible') checkServer(); }, 60000);
+
+// highlight the sidebar link for the section in view
+// (links to other pages are left alone; only this page's sections are tracked)
+var links = Array.prototype.slice.call(document.querySelectorAll('.side nav a[href^="#"]'));
+var byId = {};
+links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+var current = null;
+function mark(id) {
+  if (id === current || !byId[id]) return;
+  current = id;
+  links.forEach(function (a) { a.removeAttribute('aria-current'); });
+  byId[id].setAttribute('aria-current', 'true');
+  if (window.matchMedia('(max-width: 880px)').matches) byId[id].scrollIntoView({ block: 'nearest', inline: 'center' });
+}
+if ('IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.id); });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('main > section').forEach(function (s) { io.observe(s); });
+}
+var first = document.querySelector('main > section');
+if (first) mark(first.id);
+</script>
+</body>
+</html>
