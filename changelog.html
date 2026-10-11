@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="What changed in Mechanical Horizons: Aeronautics 3.2.0: new story and quest chapters, a coin economy, paid land claims and 82 new mods.">
+<meta name="theme-color" content="#17112a">
+<link rel="icon" href="img/guild_seal.png">
+<link rel="apple-touch-icon" href="img/guild_seal.png">
+<meta property="og:site_name" content="Mechanical Horizons">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Changelog | Mechanical Horizons: Aeronautics">
+<meta property="og:description" content="What changed in Mechanical Horizons: Aeronautics 3.2.0: new story and quest chapters, a coin economy, paid land claims and 82 new mods.">
+<meta property="og:image" content="img/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mechanical Horizons: Aeronautics. Official server and wiki.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Changelog | Mechanical Horizons: Aeronautics">
+<meta name="twitter:description" content="What changed in Mechanical Horizons: Aeronautics 3.2.0: new story and quest chapters, a coin economy, paid land claims and 82 new mods.">
+<meta name="twitter:image" content="img/share.png">
+<title>Changelog | Mechanical Horizons: Aeronautics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: guild-ledger wiki. Fixed sidebar of chapters on the left, one long scrolling page of sections; collapses to a top tab strip on phones.
+   Single dusk-purple look taken from the pack's menu art, used deliberately in both host themes. */
+:root {
+  --night: #17112a;      /* page */
+  --deck: #221a3b;       /* raised surfaces */
+  --deck-2: #2c2249;     /* table stripes, hover */
+  --line: #3d3163;       /* hairlines */
+  --text: #eee7f6;
+  --muted: #b3a6cb;
+  --brass: #f2b53a;      /* the accent: wordmark gold */
+  --brass-deep: #7a4a12; /* gold's drop shadow */
+  --copper: #d9733f;     /* button plates */
+  --rose: #d48ab4;       /* sunset pink, used for story */
+  --ok: #5fd38d;         /* server online */
+  --bad: #ef6b5b;        /* server offline */
+  --display: "Barlow Condensed", "Bahnschrift", "Arial Narrow", sans-serif;
+  --body: "Barlow", "Bahnschrift", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+img { height: auto; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--night); color: var(--text);
+  font: 400 17px/1.6 var(--body);
+  background-image: radial-gradient(ellipse 80% 50% at 70% -10%, #3a2560 0%, transparent 60%);
+  background-attachment: fixed;
+}
+a { color: var(--brass); text-underline-offset: 3px; }
+a:hover { color: #ffd27a; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 3px; }
+
+.shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1240px; margin: 0 auto; gap: 48px; padding-inline: 24px; }
+
+/* sidebar */
+.side { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; height: 100vh; overflow-y: auto; padding-block: 28px; display: flex; flex-direction: column; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
+.brand img { width: 52px; height: 52px; }
+.brand b { font: 800 22px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--brass); text-shadow: 0 2px 0 var(--brass-deep); display: block; }
+.brand span { font: 600 12px/1.4 var(--display); letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+.side nav { display: flex; flex-direction: column; gap: 2px; }
+.side nav p { margin: 14px 0 4px; font: 700 12px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.side nav a { text-decoration: none; color: var(--text); padding: 6px 12px; border-radius: 6px; border-left: 2px solid transparent; font-weight: 500; font-size: 15px; }
+.side nav a:hover { background: var(--deck); color: var(--text); }
+.side nav a[aria-current="true"] { border-left-color: var(--brass); background: var(--deck); color: var(--brass); }
+
+/* main column */
+main { min-width: 0; padding-block: 28px 80px; display: flex; flex-direction: column; gap: 72px; }
+.hero { display: flex; flex-direction: column; gap: 22px; }
+.hero img { width: 100%; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.hero .lede { font-size: 20px; line-height: 1.55; max-width: 62ch; margin: 0; }
+.motto { font: italic 400 18px/1.4 var(--body); color: var(--brass); margin: 0; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 0; }
+.facts div { background: var(--deck); padding: 14px 16px; }
+.facts dt { font: 700 12px/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 6px 0 0; font: 700 26px/1.1 var(--display); color: var(--text); font-variant-numeric: tabular-nums; }
+
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 24px; }
+section > * { margin: 0; }
+.hero-title { font: 800 clamp(26px, 3.4vw, 34px)/1.05 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--text); margin: 0; text-wrap: balance; display: block; text-shadow: none; }
+h1, h2 { font: 800 clamp(34px, 5vw, 46px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; color: var(--brass); text-shadow: 0 3px 0 var(--brass-deep); text-wrap: balance; display: flex; align-items: center; gap: 18px; }
+h1:not(.hero-title)::after, h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--line), transparent); }
+h3 { font: 700 24px/1.15 var(--display); text-transform: uppercase; letter-spacing: .03em; color: var(--text); margin-top: 10px; text-wrap: balance; }
+.kicker { font: 700 13px/1 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--rose); }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; }
+kbd, code { font: 500 .86em var(--mono); background: var(--deck-2); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; color: var(--text); }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+th, td { text-align: left; padding: 10px 14px; vertical-align: top; }
+th { font: 700 13px/1.2 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); background: var(--deck); border-bottom: 1px solid var(--line); white-space: nowrap; }
+tbody tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+tbody tr + tr td { border-top: 1px solid rgba(61,49,99,.6); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .guild { display: block; font-size: 13.5px; color: var(--rose); }
+tfoot td { background: var(--deck); font-weight: 600; border-top: 1px solid var(--line); }
+
+/* coin chips */
+.coins { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+.coin { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; white-space: nowrap; }
+.coin::before { content: ""; width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: inset 0 -2px 0 rgba(0,0,0,.3); }
+.c-copper { --c: #c8794a; } .c-iron { --c: #cfd3d8; } .c-gold { --c: #f2c94c; }
+.c-emerald { --c: #3ccf7a; } .c-diamond { --c: #6fe3e8; } .c-netherite { --c: #5b4a5a; }
+
+/* steps */
+.steps { list-style: none; padding: 0; counter-reset: step; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.steps li { counter-increment: step; background: var(--deck); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; max-width: none; display: flex; flex-direction: column; gap: 6px; }
+.steps li::before { content: "Step " counter(step); font: 700 12px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--brass); }
+.steps b { font: 700 20px/1.15 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.steps p { margin: 0; color: var(--muted); font-size: 15.5px; }
+
+/* quotes from the logbook */
+blockquote { margin: 0; padding: 4px 0 4px 18px; border-left: 3px solid var(--rose); font-style: italic; color: #e5d4ea; max-width: 64ch; }
+blockquote cite { display: block; font-style: normal; font-size: 14px; color: var(--muted); margin-top: 6px; }
+
+/* spoilers */
+details { border: 1px solid var(--line); border-radius: 10px; background: var(--deck); }
+summary { cursor: pointer; list-style: none; padding: 14px 18px; display: flex; align-items: center; gap: 12px; font: 700 20px/1.2 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 700 20px/1 var(--mono); color: var(--brass); width: 16px; }
+details[open] summary::before { content: "\2212"; }
+summary small { margin-left: auto; font: 600 12px/1 var(--display); letter-spacing: .18em; color: var(--rose); }
+.log-list { padding: 0 18px 18px; display: flex; flex-direction: column; gap: 18px; }
+.log h4 { margin: 0 0 4px; font: 700 18px/1.2 var(--display); text-transform: uppercase; letter-spacing: .04em; color: var(--brass); }
+.log p { margin: 0 0 8px; color: #e5d4ea; }
+
+/* callouts */
+.note { background: linear-gradient(180deg, #2c2249, #251c40); border: 1px solid var(--line); border-left: 3px solid var(--brass); border-radius: 8px; padding: 14px 18px; max-width: 72ch; }
+.note p { margin: 0; }
+.note p + p { margin-top: 8px; }
+.note.warn { border-left-color: var(--copper); }
+
+/* brass button, like the menu buttons */
+.plate { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.btn { font: 700 18px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: #fff; text-decoration: none; background: linear-gradient(#f69c4a, #c4543a); border: 3px solid #e9b54e; border-radius: 10px; padding: 12px 20px; box-shadow: 0 4px 0 rgba(0,0,0,.35); cursor: pointer; }
+.btn:hover { color: #fff; filter: brightness(1.08); }
+.codebox { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--deck); }
+.codebox code { border: 0; background: none; font-size: 18px; padding: 10px 14px; letter-spacing: .08em; }
+.codebox button { font: 700 14px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; background: var(--deck-2); color: var(--brass); border: 0; border-left: 1px solid var(--line); padding: 13px 14px; cursor: pointer; }
+.codebox button:hover { background: var(--line); }
+.partner img { width: 100%; max-width: 720px; border-radius: 10px; border: 1px solid var(--line); display: block; }
+
+/* live server status */
+.join { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.join .server { max-width: none; border-color: var(--brass); }
+.join-steps { grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 0; }
+.join-steps li { padding: 12px 16px; }
+@media (max-width: 1000px) { .join { grid-template-columns: minmax(0, 1fr); } }
+.side .status-pill { font-size: 14px; }
+@media (max-width: 880px) { .side .status-pill { display: none; } }
+.status-pill { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; text-decoration: none; color: var(--text); background: var(--deck); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px 6px 10px; font: 600 15px/1.2 var(--body); }
+.status-pill:hover { color: var(--text); border-color: var(--brass); }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); flex: none; }
+[data-state="online"] .dot { background: var(--ok); box-shadow: 0 0 0 4px rgba(95,211,141,.18); }
+[data-state="offline"] .dot { background: var(--bad); }
+.server { background: var(--deck); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
+.server-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.server-state { display: flex; align-items: center; gap: 10px; font: 700 22px/1 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+.server-state .dot { width: 12px; height: 12px; }
+[data-state="online"] .server-state { color: var(--ok); }
+[data-state="offline"] .server-state { color: var(--bad); }
+.server-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 0; }
+.server-stats dt { font: 700 12px/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.server-stats dd { margin: 6px 0 0; font: 700 22px/1.15 var(--display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.server-motd { margin: 0; color: var(--muted); font-style: italic; }
+.server-players { display: flex; flex-wrap: wrap; gap: 6px; }
+.server-players span { background: var(--deck-2); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; font-size: 14px; }
+.server-foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.two > div { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.two h3 { margin-top: 0; }
+.two p { margin: 0; }
+
+footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 20px; }
+
+/* phones: sidebar becomes a sticky tab strip */
+@media (max-width: 880px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding-inline: 16px; }
+  .side { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; height: auto; overflow: visible; padding-block: 10px; margin-inline: -16px; padding-inline: 16px; background: rgba(23,17,42,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); gap: 8px; }
+  .brand img { width: 34px; height: 34px; }
+  .brand b { font-size: 18px; }
+  .brand span { display: none; }
+  .side nav { flex-direction: row; overflow-x: auto; gap: 4px; scrollbar-width: none; }
+  .side nav::-webkit-scrollbar { display: none; }
+  .side nav p { display: none; }
+  .side nav a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; border-radius: 4px; padding: 6px 10px; }
+  .side nav a[aria-current="true"] { border-bottom-color: var(--brass); }
+  main { gap: 56px; padding-top: 20px; }
+  html { scroll-padding-top: 110px; }
+  section { scroll-margin-top: 110px; }
+  .hero .lede { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="index.html#top">
+      <img src="img/guild_seal.png" alt="">
+      <div><b>Mechanical Horizons</b><span>Server and wiki</span></div>
+    </a>
+    <a class="status-pill" href="index.html#top" data-status data-state="checking"><span class="dot"></span><span data-status-text>Checking server…</span></a>
+    <nav aria-label="Site sections">
+      <p>Our server</p>
+      <a href="index.html#top">Join the server</a>
+      <a href="index.html#on-the-server">Playing here</a>
+      <a href="index.html#community">Community</a>
+      <a href="index.html#servers">Host your own</a>
+      <p>Guide</p>
+      <a href="guide.html#getting-started">Getting started</a>
+      <a href="guide.html#chapters">Quest chapters</a>
+      <a href="guide.html#airships">Airships</a>
+      <a href="guide.html#economy">Coins and shops</a>
+      <a href="guide.html#land">Land and claims</a>
+      <a href="guide.html#mods">Mod list</a>
+      <a href="guide.html#troubleshooting">Troubleshooting</a>
+      <p>Story</p>
+      <a href="story.html#story">The Horizon Logs</a>
+      <p>Updates</p>
+      <a href="#changelog">Changelog</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section id="changelog">
+      <h1>Changelog</h1>
+      <p class="kicker">3.2.0 · Changes since 3.1.0</p>
+      <p>The Horizon Guild update. The pack now has a story, a real economy, paid land claims, five new quest chapters and over 80 new mods, most of them for Create and for flight.</p>
+      <div class="note warn">
+        <p><b>Before you update</b></p>
+        <ul>
+          <li><b>Back up your world.</b> This is a big update.</li>
+          <li><b>Land claims reset.</b> Open Parties and Claims is replaced by FTB Chunks, and claims don't carry over. Claim your land again after updating. Claims now cost coins.</li>
+          <li><b>Map waypoints reset.</b> JourneyMap is replaced by Xaero's Minimap and World Map.</li>
+          <li><b>Removed mods take their items with them.</b> Anything from the 30 removed mods disappears from inventories and the world.</li>
+        </ul>
+      </div>
+      <h3>Highlights</h3>
+      <ul>
+        <li><b>The Horizon Logs:</b> a story chapter in three acts about the Aerie, the city that flew above the clouds. See <a href="story.html#story">the story</a>.</li>
+        <li><b>A working economy:</b> coins, wallets, ATMs, a bank, shops and network traders. See <a href="guide.html#economy">Coins and shops</a>.</li>
+        <li><b>Land costs money:</b> claims are paid in coins, protections cost upkeep, land can be sold, and teams can go to war. See <a href="guide.html#land">Land and claims</a>.</li>
+        <li><b>More airships:</b> Aeroworks cockpits, Create Propulsion thrusters and wings, Immersive Aircraft, Create Big Cannons and Create Radars.</li>
+        <li><b>Over 40 new Create addons</b>, from Steam 'n' Rails to Create: New Age.</li>
+        <li><b>A new look:</b> a custom main menu, Terralith world generation and YUNG's Better structures.</li>
+        <li><b>Official hosting partner:</b> Underline Hosting, with 20% off your first 3 months using code VOIDPULSE.</li>
+      </ul>
+      <h3>Quests</h3>
+      <ul>
+        <li>New story chapter, the <b>Horizon Logs</b>: 15 pages in three acts, plus 5 optional margin notes.</li>
+        <li>New chapters for <b>Lightman's Currency</b>, <b>Aeroworks</b> and <b>Create Propulsion</b>.</li>
+        <li>Five new allied-school chapters with 92 quests: PneumaticCraft, Immersive Petroleum, Big Cannons and Aircraft, Exploration (which holds the story's epilogue) and Farmer's Delight.</li>
+        <li>The Welcome chapter is now the Guild hub: six core disciplines power the Horizon Engine, and five optional allied schools sit around them.</li>
+        <li>Removed 112 filler quests and reconnected the quests that depended on them, so no progression is lost.</li>
+        <li>687 quests across 17 chapters. See <a href="guide.html#chapters">Quest chapters</a>.</li>
+      </ul>
+      <h3>Mods</h3>
+      <details>
+        <summary>Added <small>82 mods</small></summary>
+        <div class="log-list">
+          <div class="log"><h4>Flight and airships</h4><p>Create: Aeroworks, Create Propulsion: Simulated, Create: Aeronautical Diesel, Hot's Aerostuff, Create: Break Levitite, Immersive Aircraft, Create Big Cannons, Create: Radars, Aeronautics Military Structures, Create Aeronautics Structures</p></div>
+          <div class="log"><h4>Create addons</h4><p>Create: Misc &amp; Things, Create Deco, Create Encased, Create Factory Logistics, Create Goggles, Create Mechanical Extruder, Create More Seats, Create Ore Excavation, Create Slice &amp; Dice, Create Stuff 'N Additions, Create: Ages, Create: Aquatic Ambitions, Create: Bells &amp; Whistles, Create: Bitterballen, Create: Blocks &amp; Bogies, Create: Coaster Seat, Create: Connected, Create: Design n' Decor, Create: Diesel Generators, Create: Dreams n' Desires, Create: Ender Transmission, Create: Escalated, Create: Factory, Create: Framed, Create: Gears n' Kinetics, Create: Ironworks, Create: More Features, Create: New Age, Create: Pattern Schematics, Create: Some Assembly Required, Create: Transmission!, Create: Treadmill, Create: Ultimate Factory, Steam 'n' Rails, Rechiseled: Create, Sophisticated Backpacks Create Integration, Sophisticated Storage Create Integration</p></div>
+          <div class="log"><h4>Tech</h4><p>Immersive Petroleum, Immersive Posts, More Immersive Wires, Immersive Energistics, Just Enough Immersive Multiblocks, Sooty Chimneys</p></div>
+          <div class="log"><h4>Economy and land</h4><p>Lightman's Currency, Lightman's Currency Tech, Create: Trading Floor, FTB Chunks, Economy: Currency &amp; Chunks</p></div>
+          <div class="log"><h4>World and exploration</h4><p>Terralith, Terralith: River In Jungle, YUNG's Better Desert Temples, Dungeons, Jungle Temples, Mineshafts, Nether Fortresses and Ocean Monuments, Create: Structures Arise, Create: Rustic Structures</p></div>
+          <div class="log"><h4>Storage and quality of life</h4><p>Sophisticated Storage, Storage Drawers, Xaero's Minimap, Xaero's World Map, Jade Addons, Farsight, Beltborne Lanterns, Rechiseled</p></div>
+          <div class="log"><h4>Libraries</h4><p>TerraBlender, KubeJS Create, KubeJS Diesel Generators, Mechanicals Lib, NightLib, Ritchie's Projectile Library</p></div>
+        </div>
+      </details>
+      <details>
+        <summary>Removed <small>30 mods</small></summary>
+        <div class="log-list">
+          <div class="log"><h4>Replaced</h4><p>JourneyMap and JourneyMap Integration (now Xaero's maps), Open Parties and Claims (now FTB Chunks with paid claims), BisectHosting Server Integration Menu (now the Underline Hosting partnership)</p></div>
+          <div class="log"><h4>Cut to keep the pack focused</h4><p>Medieval Buildings (all three editions), Macaw's Paintings, Macaw's Holidays, Danger Close, Eat an Omelette, TrimsEffects, Golden Foods!, Crawl on Demand, Stackable Stew and Soup, Healthy Water, Time On Display, Crab Claws, Epic Power Bracelets, Animal Armor Trims, Awesome 3D Mace, Elemental Maces, Better Pickaxe Trims, Better Swords Trims, Slime Jump, Adorable Eggs, Freeze the Happy Ghasts, Happy Ghasts Boost, Potion Combiner, Multi Arrow Effects</p></div>
+        </div>
+      </details>
+      <details>
+        <summary>Updated <small>34 mods</small></summary>
+        <div class="log-list">
+          <div class="log"><p>AmbientSounds, Amendments, Better Archeology, Chat Animation, Chunk Sending, Collective, Create: Deep Seas, CreativeCore, Custom Nether Portals, Double Doors, Entity Culling, Friends &amp; Foes, Fusion, Just Enough Breeding, Just Enough Items, MezzConfig, Modern Industrialization, ModernFix, Modular Routers, MonoLib, Moog's Structure Lib, Moonlight Lib, Oritech, Placebo, Puzzles Lib, Sable, Sophisticated Backpacks, Sophisticated Core, Stack Refill, Subtle Effects, SuperMartijn642's Core Lib, Tesseract API, Unlocked Typing, Villages &amp; Pillages</p></div>
+        </div>
+      </details>
+    </section>
+  </main>
+</div>
+
+<script>
+// copy buttons: clipboard when allowed, otherwise select the text so it can be copied by hand
+document.querySelectorAll('button[data-copy]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1800); };
+    var fallback = function () {
+      var el = document.getElementById(btn.dataset.target);
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = 'Press Ctrl+C';
+    };
+    try { navigator.clipboard.writeText(btn.dataset.copy).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+
+// live server status from api.mcsrvstat.us (it caches results for a few minutes).
+// Works wherever the page may fetch other sites; inside the claude.ai viewer the request is blocked
+// and the card falls back to the address and the "Check live status" link.
+var SERVER = '45.59.132.123:10003';
+var statusEls = document.querySelectorAll('[data-status]');
+function setState(state, short, long) {
+  statusEls.forEach(function (el) {
+    el.setAttribute('data-state', state);
+    el.querySelector('[data-status-text]').textContent = el.id === 'server-card' ? long : short;
+  });
+}
+function showServer(d) {
+  var online = !!(d && d.online);
+  var on = online && d.players ? d.players.online : 0, max = online && d.players ? d.players.max : 0;
+  if (online) setState('online', 'Online: ' + on + ' playing', 'Online');
+  else if (d) setState('offline', 'Server offline', 'Offline');
+  else setState('unknown', 'Server status', 'Status unavailable');
+  // the full card only exists on the server page
+  var card = document.getElementById('server-card');
+  if (!card) return;
+  var players = document.getElementById('server-players'), version = document.getElementById('server-version');
+  var motd = document.getElementById('server-motd'), list = document.getElementById('server-list');
+  list.textContent = ''; list.hidden = true; motd.hidden = true;
+  players.textContent = online ? on + ' / ' + max : '–';
+  version.textContent = online && d.version ? d.version : '–';
+  if (online) {
+    var m = d.motd && d.motd.clean ? d.motd.clean.join(' ').trim() : '';
+    if (m) { motd.textContent = m; motd.hidden = false; }
+    var names = d.players && d.players.list ? d.players.list : [];
+    names.slice(0, 40).forEach(function (p) { var s = document.createElement('span'); s.textContent = p.name || p; list.appendChild(s); });
+    list.hidden = names.length === 0;
+  }
+  document.getElementById('server-checked').textContent = d ? 'Checked ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Live status could not be loaded here.';
+}
+function checkServer() {
+  if (!window.fetch) { showServer(null); return; }
+  fetch('https://api.mcsrvstat.us/3/' + SERVER)
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(showServer)
+    .catch(function () { showServer(null); });
+}
+checkServer();
+setInterval(function () { if (document.visibilityState === 'visible') checkServer(); }, 60000);
+
+// highlight the sidebar link for the section in view
+// (links to other pages are left alone; only this page's sections are tracked)
+var links = Array.prototype.slice.call(document.querySelectorAll('.side nav a[href^="#"]'));
+var byId = {};
+links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+var current = null;
+function mark(id) {
+  if (id === current || !byId[id]) return;
+  current = id;
+  links.forEach(function (a) { a.removeAttribute('aria-current'); });
+  byId[id].setAttribute('aria-current', 'true');
+  if (window.matchMedia('(max-width: 880px)').matches) byId[id].scrollIntoView({ block: 'nearest', inline: 'center' });
+}
+if ('IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.id); });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('main > section').forEach(function (s) { io.observe(s); });
+}
+var first = document.querySelector('main > section');
+if (first) mark(first.id);
+</script>
+</body>
+</html>

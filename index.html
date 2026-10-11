@@ -3,9 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="The Mechanical Horizons: Aeronautics server, with a player guide to the modpack.">
+<meta name="description" content="Join the Mechanical Horizons Minecraft server: build Create airships, run a coin economy and claim land in a story-driven 1.21.1 NeoForge modpack.">
+<meta name="theme-color" content="#17112a">
 <link rel="icon" href="img/guild_seal.png">
-<title>Mechanical Horizons Server</title>
+<link rel="apple-touch-icon" href="img/guild_seal.png">
+<meta property="og:site_name" content="Mechanical Horizons">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mechanical Horizons Server | Create Airship Modpack">
+<meta property="og:description" content="Join the Mechanical Horizons Minecraft server: build Create airships, run a coin economy and claim land in a story-driven 1.21.1 NeoForge modpack.">
+<meta property="og:image" content="img/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mechanical Horizons: Aeronautics. Official server and wiki.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mechanical Horizons Server | Create Airship Modpack">
+<meta name="twitter:description" content="Join the Mechanical Horizons Minecraft server: build Create airships, run a coin economy and claim land in a story-driven 1.21.1 NeoForge modpack.">
+<meta name="twitter:image" content="img/share.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"Mechanical Horizons","description":"Join the Mechanical Horizons Minecraft server: build Create airships, run a coin economy and claim land in a story-driven 1.21.1 NeoForge modpack."},{"@type":"SoftwareApplication","name":"Mechanical Horizons: Aeronautics","applicationCategory":"GameApplication","operatingSystem":"Windows, macOS, Linux","description":"A story-driven Create tech and airship modpack for Minecraft 1.21.1 on NeoForge.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}]}</script>
+<title>Mechanical Horizons Server | Create Airship Modpack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -72,8 +87,9 @@ main { min-width: 0; padding-block: 28px 80px; display: flex; flex-direction: co
 
 section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 24px; }
 section > * { margin: 0; }
-h2 { font: 800 clamp(34px, 5vw, 46px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; color: var(--brass); text-shadow: 0 3px 0 var(--brass-deep); text-wrap: balance; display: flex; align-items: center; gap: 18px; }
-h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--line), transparent); }
+.hero-title { font: 800 clamp(26px, 3.4vw, 34px)/1.05 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--text); margin: 0; text-wrap: balance; display: block; text-shadow: none; }
+h1, h2 { font: 800 clamp(34px, 5vw, 46px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; color: var(--brass); text-shadow: 0 3px 0 var(--brass-deep); text-wrap: balance; display: flex; align-items: center; gap: 18px; }
+h1:not(.hero-title)::after, h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--line), transparent); }
 h3 { font: 700 24px/1.15 var(--display); text-transform: uppercase; letter-spacing: .03em; color: var(--text); margin-top: 10px; text-wrap: balance; }
 .kicker { font: 700 13px/1 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--rose); }
 p, li { max-width: 68ch; }
@@ -213,12 +229,15 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       <a href="guide.html#troubleshooting">Troubleshooting</a>
       <p>Story</p>
       <a href="story.html#story">The Horizon Logs</a>
+      <p>Updates</p>
+      <a href="changelog.html#changelog">Changelog</a>
     </nav>
   </aside>
 
   <main>
     <section id="top" class="hero">
       <img src="img/banner.png" alt="Mechanical Horizons: Aeronautics" width="1920" height="480">
+      <h1 class="hero-title">Mechanical Horizons: Aeronautics server</h1>
       <p class="lede">Welcome to the Mechanical Horizons server. Build physics-simulated airships with your crew, grow from a hand-cranked shaft to fusion reactors, trade with real coins in a player-run economy, and find out what happened to the city that once flew above the clouds.</p>
       <div class="join">
         <div class="server" id="server-card" data-status data-state="checking" aria-live="polite">
@@ -301,7 +320,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       <h2>Host your own</h2>
       <p>Want a private world for your own group? Everything in the pack works in multiplayer: shared quests, team bank accounts, team claims and wars. Use the server files for the same pack version as your players and give the server at least 8 GB of RAM.</p>
       <div class="partner">
-        <img src="img/partner_underline.png" alt="Partnered with Underline Hosting. 20% off your first 3 months with code VOIDPULSE." width="1920" height="640">
+        <img src="img/partner_underline.png" alt="Partnered with Underline Hosting. 20% off your first 3 months with code VOIDPULSE." width="1920" height="640" loading="lazy">
       </div>
       <h3>Official hosting partner: Underline Hosting</h3>
       <p>Get 20% off your first 3 months with this code. Renting through the link also supports the pack.</p>

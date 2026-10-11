@@ -3,9 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="The Mechanical Horizons: Aeronautics server, with a player guide to the modpack.">
+<meta name="description" content="Player guide to Mechanical Horizons: Aeronautics. Quest chapters, building airships, Lightman's Currency coins and shops, land claim prices and fixes.">
+<meta name="theme-color" content="#17112a">
 <link rel="icon" href="img/guild_seal.png">
-<title>Mechanical Horizons Guide</title>
+<link rel="apple-touch-icon" href="img/guild_seal.png">
+<meta property="og:site_name" content="Mechanical Horizons">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mechanical Horizons Guide | Quests, Airships, Economy">
+<meta property="og:description" content="Player guide to Mechanical Horizons: Aeronautics. Quest chapters, building airships, Lightman's Currency coins and shops, land claim prices and fixes.">
+<meta property="og:image" content="img/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mechanical Horizons: Aeronautics. Official server and wiki.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mechanical Horizons Guide | Quests, Airships, Economy">
+<meta name="twitter:description" content="Player guide to Mechanical Horizons: Aeronautics. Quest chapters, building airships, Lightman's Currency coins and shops, land claim prices and fixes.">
+<meta name="twitter:image" content="img/share.png">
+<title>Mechanical Horizons Guide | Quests, Airships, Economy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -72,8 +86,9 @@ main { min-width: 0; padding-block: 28px 80px; display: flex; flex-direction: co
 
 section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 24px; }
 section > * { margin: 0; }
-h2 { font: 800 clamp(34px, 5vw, 46px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; color: var(--brass); text-shadow: 0 3px 0 var(--brass-deep); text-wrap: balance; display: flex; align-items: center; gap: 18px; }
-h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--line), transparent); }
+.hero-title { font: 800 clamp(26px, 3.4vw, 34px)/1.05 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--text); margin: 0; text-wrap: balance; display: block; text-shadow: none; }
+h1, h2 { font: 800 clamp(34px, 5vw, 46px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; color: var(--brass); text-shadow: 0 3px 0 var(--brass-deep); text-wrap: balance; display: flex; align-items: center; gap: 18px; }
+h1:not(.hero-title)::after, h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--line), transparent); }
 h3 { font: 700 24px/1.15 var(--display); text-transform: uppercase; letter-spacing: .03em; color: var(--text); margin-top: 10px; text-wrap: balance; }
 .kicker { font: 700 13px/1 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--rose); }
 p, li { max-width: 68ch; }
@@ -213,12 +228,14 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       <a href="#troubleshooting">Troubleshooting</a>
       <p>Story</p>
       <a href="story.html#story">The Horizon Logs</a>
+      <p>Updates</p>
+      <a href="changelog.html#changelog">Changelog</a>
     </nav>
   </aside>
 
   <main>
     <section id="getting-started">
-      <h2>Getting started</h2>
+      <h1>Getting started</h1>
       <ol class="steps">
         <li><b>Install</b><p>Install the pack from the CurseForge app. It sets up Minecraft 1.21.1 and NeoForge for you.</p></li>
         <li><b>Give it memory</b><p>Allocate at least 8 GB of RAM in CurseForge under Settings, Minecraft, Java settings. Less than that and large bases will stutter.</p></li>
